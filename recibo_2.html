@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recibo - StarTec Soluções em Tecnologia</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background-color: #e9ecef;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .toolbar {
+            background: #fff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+            display: flex;
+            gap: 10px;
+            width: 210mm;
+            max-width: 100%;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .toolbar button {
+            background: #0d47a1;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .toolbar button.btn-limpar {
+            background: #6c757d;
+        }
+
+        .page {
+            background: #fff;
+            width: 210mm;
+            padding: 10mm 12mm;
+            box-shadow: 0 0 12px rgba(0,0,0,0.15);
+        }
+
+        .recibo-container {
+            border: 3px solid #000;
+            border-radius: 22px;
+            padding: 18px 24px;
+            background: #fff;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 16px;
+        }
+
+        .empresa-box {
+            border: 1.5px solid #000;
+            border-radius: 6px;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+        }
+
+        .logo-wrapper {
+            width: 115px;
+            height: 75px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .logo-wrapper img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .empresa-texto {
+            text-align: center;
+            font-size: 10.5px;
+            font-weight: bold;
+            line-height: 1.55;
+            color: #000;
+            flex-grow: 1;
+        }
+
+        .recibo-valor-box {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .recibo-titulo {
+            font-size: 32px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            line-height: 1;
+            margin-bottom: 8px;
+            color: #000;
+        }
+
+        .valor-linha {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .valor-linha span {
+            font-size: 24px;
+            font-weight: 900;
+            color: #000;
+        }
+
+        .valor-input {
+            border: 2px solid #000;
+            border-radius: 10px;
+            width: 145px;
+            height: 40px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: right;
+            padding: 0 10px;
+            outline: none;
+            color: #000;
+        }
+
+        .campo-bloco {
+            margin-bottom: 12px;
+        }
+
+        .linha-flex {
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+            margin-bottom: 6px;
+        }
+
+        .rotulo {
+            font-size: 13px;
+            font-weight: bold;
+            font-style: italic;
+            white-space: nowrap;
+            color: #000;
+        }
+
+        .linha-input {
+            border: none;
+            border-bottom: 1.2px solid #000;
+            flex-grow: 1;
+            width: 100%;
+            font-size: 13px;
+            padding: 1px 4px;
+            outline: none;
+            background: transparent;
+            color: #000;
+        }
+
+        .linha-extra {
+            display: block;
+            width: 100%;
+            margin-top: 6px;
+        }
+
+        .caixa-extenso {
+            border: 1.5px solid #000;
+            border-radius: 6px;
+            height: 26px;
+            padding: 0 8px;
+            font-size: 13px;
+            outline: none;
+            color: #000;
+            background: transparent;
+        }
+
+        .caixa-extenso-1 {
+            flex-grow: 1;
+            width: 100%;
+        }
+
+        .caixa-extenso-2 {
+            width: 100%;
+            margin-top: 6px;
+        }
+
+        .rodape {
+            margin-top: 10px;
+        }
+
+        .texto-firmo {
+            font-size: 12px;
+            font-weight: bold;
+            font-style: italic;
+            margin-bottom: 8px;
+        }
+
+        .data-container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: baseline;
+            gap: 4px;
+            font-size: 12.5px;
+            font-weight: bold;
+            font-style: italic;
+            margin-bottom: 28px;
+        }
+
+        .data-input {
+            border: none;
+            border-bottom: 1.2px solid #000;
+            text-align: center;
+            font-size: 12.5px;
+            outline: none;
+            background: transparent;
+            color: #000;
+        }
+
+        .assinatura-container {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .assinatura-box {
+            width: 265px;
+            border-top: 1.2px solid #000;
+            text-align: center;
+            padding-top: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            font-style: italic;
+        }
+
+        input:focus {
+            background-color: #eef5ff;
+        }
+
+        @media print {
+            body {
+                background: none;
+                padding: 0;
+            }
+            .toolbar {
+                display: none;
+            }
+            .page {
+                box-shadow: none;
+                width: 100%;
+                padding: 5mm 8mm;
+            }
+            input:focus {
+                background-color: transparent;
+            }
+            @page {
+                size: A4 portrait;
+                margin: 5mm;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="toolbar">
+        <button type="button" class="btn-limpar" onclick="limparCampos()">Limpar Campos</button>
+        <button type="button" onclick="window.print()">🖨️ Imprimir</button>
+    </div>
+
+    <div class="page">
+        <div class="recibo-container">
+            <div class="header">
+                <div class="empresa-box">
+                    <div class="logo-wrapper">
+                        <img src="Imagem14.png" alt="StarTec Soluções em Tecnologia">
+                    </div>
+                    <div class="empresa-texto">
+                        RICARDO LOIOLA DE SENA<br>
+                        CNPJ: 29.557.589/0001-05<br>
+                        RUA ANTÔNIO RODRIGUES FILHO, 122<br>
+                        BAIRRO JOSÉ ARAGÃO FREITAS<br>
+                        (88) 9-9979-9655
+                    </div>
+                </div>
+
+                <div class="recibo-valor-box">
+                    <div class="recibo-titulo">RECIBO</div>
+                    <div class="valor-linha">
+                        <span>R$</span>
+                        <input type="text" class="valor-input">
+                    </div>
+                </div>
+            </div>
+
+            <div class="campo-bloco">
+                <div class="linha-flex">
+                    <span class="rotulo">Recebemos do(a) Sr.(a)</span>
+                    <input type="text" class="linha-input">
+                </div>
+                <input type="text" class="linha-input linha-extra">
+            </div>
+
+            <div class="campo-bloco">
+                <div class="linha-flex" style="align-items: center;">
+                    <span class="rotulo">A importância de</span>
+                    <input type="text" class="caixa-extenso caixa-extenso-1">
+                </div>
+                <input type="text" class="caixa-extenso caixa-extenso-2">
+            </div>
+
+            <div class="campo-bloco">
+                <div class="linha-flex">
+                    <span class="rotulo">Referente a</span>
+                    <input type="text" class="linha-input">
+                </div>
+                <input type="text" class="linha-input linha-extra">
+            </div>
+
+            <div class="rodape">
+                <div class="texto-firmo">Pelo que firmo o presente recibo</div>
+                <div class="data-container">
+                    <span>Tauá-CE,</span>
+                    <input type="text" class="data-input" style="width: 32px;">
+                    <span>de</span>
+                    <input type="text" class="data-input" style="width: 95px;">
+                    <span>de</span>
+                    <input type="text" class="data-input" id="campoAno" style="width: 48px;" value="2026">
+                </div>
+                <div class="assinatura-container">
+                    <div class="assinatura-box">Assinatura</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function limparCampos() {
+            document.querySelectorAll('input').forEach(campo => {
+                if (campo.id !== 'campoAno') {
+                    campo.value = '';
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
